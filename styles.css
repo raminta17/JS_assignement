@@ -1,0 +1,193 @@
+:root {
+    --lightGreyColor: #1e1d1d;
+    --blackBgColo: #000000;
+    --textColor : #d3d2d2;
+    --buttonHoverColor: #a1a1a1;
+    --boxShadow: rgba(114, 114, 121, 0.2) 0px 7px 29px 0px;
+    --boxShadowHover: rgba(114, 114, 121, 0.8) 0px 7px 29px 0px;
+}
+*{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    background-color: var(--lightGreyColor);
+    color: var(--textColor);
+}
+.f1 {
+    flex:1;
+}
+.f3 {
+    flex:3;
+}
+.cont {
+    height: 100vh;
+}
+.userLoginPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.box {
+    background-color: var(--blackBgColo);
+    border-radius: 30px;
+    box-shadow: var(--boxShadow);
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    margin: 30px;
+    text-align: center;
+    transition: 0.3s ease-in-out;
+
+}
+.userLoginPage .box{
+    width: 500px;
+}
+.userLoginPage .box:hover, .moviesPage .box:hover {
+    box-shadow: var(--boxShadowHover);
+}
+.moviesPage .box:hover{
+    cursor: pointer;
+}
+.mainPage .box:hover{
+    box-shadow: var(--boxShadowHover);
+    font-size: 30px;
+    cursor: pointer;
+}
+input[type='text'], button, select {
+    margin: 20px;
+    padding: 20px;
+    border: none;
+    background-color: var(--textColor);
+    border-radius: 50px;
+    transition: 0.1s ease-in;
+}
+input[type='text']:hover, select:hover, button:hover {
+    background-color: var(--buttonHoverColor);
+}
+#usernameUpdateErrorMessage{
+    margin-left: 30px;
+    color: #c40b0b;
+    font-size: small;
+    display: none;
+}
+#loginErrorMessage {
+    color: #c40b0b;
+    display: none;
+}
+.mainPage, .profilePage, .moviesPage, .moviePage {
+    display: none;
+}
+nav {
+    background-color: var(--blackBgColo);
+    height: 70px;
+}
+.navUserInfo, .backToMainPageBtn {
+    margin: 0 30px;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    transition: 0.3s ease-in-out;
+}
+.navUserInfo:hover, .backToMainPageBtn:hover {
+    color: white;
+    cursor: pointer;
+}
+nav img {
+    border-radius: 50px;
+    height: 50px;
+    width: 50px;
+    margin: 10px;
+}
+main > .box {
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.moviesPage .box, .moviePage .box {
+    height: 450px;
+}
+.bgImage {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.reserveBtn {
+    background-color: var(--blackBgColo);
+    color: var(--textColor);
+    box-shadow: var(--boxShadow);
+    width: 500px;
+}
+.reserveBtn:hover {
+    box-shadow: var(--boxShadowHover);
+    background-color: var(--blackBgColo);
+}
+.movie{
+    margin-top: 65px;
+}
+.movieCont {
+    width: 300px;
+}
+.movieInfoCont span {
+    border: 2px solid var(--textColor);
+    border-radius: 50px;
+    padding:0 10px 5px 10px;
+    margin: 5px;
+}
+.movieInfoCont h4 {
+    margin-top: 5px;
+ }
+.movieInfoCont p{
+    margin: 0;
+}
+.movieSelectSeats {
+    gap:5px;
+    width: 300px;
+    margin: 0 auto;
+}
+.movieSelectSeats div {
+    background-color: var(--lightGreyColor);
+    color: var(--textColor);
+    height: 60px;
+    width: 50px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.movieSelectSeats div:hover {
+    background-color: var(--textColor);
+    color: var(--lightGreyColor);
+}
+.movieSelectSeats img {
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+    border-radius: 50px;
+}
+.movieSelectSeats b {
+    font-size: small;
+}
+.lotr1seats {
+    grid-template-rows: repeat(5, 1fr);
+    grid-template-columns: repeat(6, 1fr);
+}
+.lotr2seats {
+    grid-template-rows: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
+}
+.lotr3seats {
+    grid-template-rows: repeat(2, 1fr);
+    grid-template-columns: repeat(4, 1fr);
+}
+.screen {
+    background-color: var(--lightGreyColor);
+    padding: 5px;
+    border-radius: 10px;
+    width: 400px;
+    margin: 0 auto;
+}

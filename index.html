@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Movie reservation APP</title>
+    <link rel="stylesheet" href="bootstrap.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="app.js" defer></script>
+</head>
+<body>
+    <div class="userLoginPage cont">
+        <h1>Movie Reservation</h1>
+        <h4>Please Login</h4>
+        <div class="userLoginBox box">
+            <input id="loginUsernameInput" type="text" placeholder="username">
+            <button id="loginBtn">LOGIN</button>
+        </div>
+        <div id="loginErrorMessage">Please input your username</div>
+    </div>
+    <div class="mainPage cont">
+        <nav class="d-flex align-content-center justify-content-between">
+            <div class="navUserInfo">
+            </div>
+            <div class="backToMainPageBtn">LOG OUT</div>
+        </nav>
+        <main class="d-flex justify-content-around">
+            <h2 id="goToProfilePage" class="box f1">PROFILE</h2>
+            <h2 id="goToMoviePage" class="box f1">MOVIES</h2>
+        </main>
+    </div>
+    <div class="cont profilePage">
+        <nav class="d-flex align-content-center justify-content-between">
+            <div class="navUserInfo">
+            </div>
+            <div class="backToMainPageBtn">BACK TO MAIN PAGE</div>
+        </nav>
+        <div class="box">
+            <div>
+                <h4>Update Your Profile</h4>
+            </div>
+            <input id="changeUsernameInput" type="text" placeholder="change username">
+            <div class="text-start" id="usernameUpdateErrorMessage">Username already exists</div>
+            <input id="updateProfilePhotoInput" type="text" placeholder="profile photo url">
+            <select id="selectGenderInput">
+                <option value="notSelected">Please select gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+            <button id="updateProfileBtn">UPDATE PROFILE</button>
+        </div>
+    </div>
+    <div class="cont moviesPage">
+        <nav class="d-flex align-content-center justify-content-between">
+            <div class="navUserInfo">
+            </div>
+            <div class="backToMainPageBtn">BACK TO MAIN PAGE</div>
+        </nav>
+        <h1 class="text-center m-3">Choose Movie</h1>
+        <div class="d-flex flex-wrap justify-content-center" id="moviesOptionsCont"></div>
+
+    </div>
+    <div class="cont moviePage">
+        <nav class="d-flex align-content-center justify-content-between">
+            <div class="navUserInfo">
+            </div>
+            <div class="backToMainPageBtn">BACK TO MAIN PAGE</div>
+        </nav>
+        <div class="d-flex p-3 chosenMoviePage"></div>
+    </div>
+</body>
+</html>
