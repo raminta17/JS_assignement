@@ -153,8 +153,8 @@ goToProfilePage.onclick = () => {
 goToMoviePage.onclick = () => {
     mainPage.style.display = 'none';
     chooseMoviePage.style.display = 'block';
-    screens.forEach((screen, index) => {
-        availableSeatCount(movies[index].id, index, (screen.rows*screen.columns));
+    movies.forEach((movie,movieIndex) => {
+        availableSeatCount(movieIndex);
     })
 }
 
@@ -176,7 +176,7 @@ chooseMovie.forEach((chosenMovie, chosenMovieIndex) => {
         const h3 = document.createElement('h3');
         h3.textContent = 'SELECT YOUR SEATS';
         const movieSeatCont = document.createElement('div');
-        movieSeatCont.className = 'box movie1SeatsCont d-flex flex-column justify-content-around align-content-center';
+        movieSeatCont.className = 'box d-flex flex-column justify-content-around align-content-center';
         const screenImg = document.createElement('div');
         screenImg.className = 'screen';
         screenImg.textContent = 'SCREEN';
@@ -191,9 +191,8 @@ chooseMovie.forEach((chosenMovie, chosenMovieIndex) => {
         movieScreenCont.append(h3,movieSeatCont, reserveSeatsBtn);
         chosenMoviePage.append(movieInfoCont,movieScreenCont);
 
-        generateMovieInfo(chosenMovieIndex, movieInfoCont);
-        let screenIndex = movies[chosenMovieIndex].screenIndex;
-        generateMovieSeats(screens[screenIndex].rows*screens[screenIndex].columns, screenSeats, movies[chosenMovieIndex].id, chosenMovieIndex);
+        generateMovieInfo(chosenMovieIndex);
+        generateMovieSeats(chosenMovieIndex);
     }
 })
 
@@ -273,9 +272,9 @@ function updateUserInfoFunction() {
 }
 
 // -- on movie page count available seats in each movie screen
-function availableSeatCount(movie, movie_seatsAvailable_index, totalSeats) {
-    if (localStorage.getItem(movie)) {
-        let screen_existingSeatsArrangement = JSON.parse(localStorage.getItem(movie));
+function availableSeatCount(movieIndex) {
+    if (localStorage.getItem(movies[movieIndex].id)) {
+        let screen_existingSeatsArrangement = JSON.parse(localStorage.getItem(movies[movieIndex].id));
         let availableSeatCount = 0;
         screen_existingSeatsArrangement.forEach(movieSeat => {
             if (movieSeat === '') {
@@ -283,21 +282,22 @@ function availableSeatCount(movie, movie_seatsAvailable_index, totalSeats) {
             }
         })
         if (availableSeatCount === 0) {
-            seatsAvailable_texts[movie_seatsAvailable_index].textContent = 'Sold Out!';
-            seatsAvailable_texts[movie_seatsAvailable_index].style.color = 'red';
-            seatsAvailable_texts[movie_seatsAvailable_index].style.fontStyle = 'italic';
+            seatsAvailable_texts[movieIndex].textContent = 'Sold Out!';
+            seatsAvailable_texts[movieIndex].style.color = 'red';
+            seatsAvailable_texts[movieIndex].style.fontStyle = 'italic';
         } else {
-            seatsAvailable_texts[movie_seatsAvailable_index].textContent = 'Seats available: ' + availableSeatCount;
+            seatsAvailable_texts[movieIndex].textContent = 'Seats available: ' + availableSeatCount;
         }
     } else {
-        seatsAvailable_texts[movie_seatsAvailable_index].textContent = 'Seats available: ' + totalSeats;
+        seatsAvailable_texts[movieIndex].textContent = 'Seats available: ' + (screens[movies[movieIndex].screenIndex].rows*screens[movies[movieIndex].screenIndex].columns);
     }
 }
 
 
 // -- generate each movie info --
-function generateMovieInfo(movieIndex, movieInfoCont) {
+function generateMovieInfo(movieIndex) {
     const movieInfoCover = document.createElement('div');
+    const movieInfoCont = document.querySelector('.movieInfoCont');
     movieInfoCover.className = 'box bgImage movie';
     movieInfoCover.style.backgroundImage = `url(${movies[movieIndex].cover})`;
     const movieInfo = document.createElement('div');
@@ -320,13 +320,15 @@ function generateMovieInfo(movieIndex, movieInfoCont) {
     movieInfoCont.append(movieInfoCover,movieInfo);
 }
 // -- creating movie screen seats in html --
-function generateMovieSeats(totalSeats, movieSeatsCont, movie, screenIndex) {
+function generateMovieSeats(selectedMovieIndex) {
+    const movieSeatsCont = document.querySelector('.movieSelectSeats');
     movieSeatsCont.textContent = '';
     let screen_existingSeatsArrangement = [];
-    if (localStorage.getItem(movie)) {
-        screen_existingSeatsArrangement = JSON.parse(localStorage.getItem(movie));
+    if (localStorage.getItem(movies[selectedMovieIndex].id)) {
+        screen_existingSeatsArrangement = JSON.parse(localStorage.getItem(movies[selectedMovieIndex].id));
     }
     let reservedForUser = null;
+    let totalSeats = screens[movies[selectedMovieIndex].screenIndex].rows*screens[movies[selectedMovieIndex].screenIndex].columns;
     for (let i = 0; i < totalSeats; i++) {
         const seat = document.createElement('div');
         seat.className = 'd-flex flex-column overflow-hidden';
@@ -348,16 +350,15 @@ function generateMovieSeats(totalSeats, movieSeatsCont, movie, screenIndex) {
 
         movieSeatsCont.append(seat);
     }
-    localStorage.setItem(movie, JSON.stringify(screen_existingSeatsArrangement));
-    const movieSeatsCont_divs = document.querySelectorAll('.movieSelectSeats div')
-    movie_reserveSeats(movies[screenIndex].id, movieSeatsCont_divs, screenIndex, moviePage);
+    localStorage.setItem(movies[selectedMovieIndex].id, JSON.stringify(screen_existingSeatsArrangement));
+    movie_reserveSeats(selectedMovieIndex);
 }
 
 // -- universal function for reserving seats
-function movie_reserveSeats(movie, movieSeats_divs, screenIndex, movie_page) {
+function movie_reserveSeats(selectedMovieIndex) {
     let selectedSeats = [];
-
-    movieSeats_divs.forEach((movieSeat, seatIndex) => {
+    const movieSeatsCont_divs = document.querySelectorAll('.movieSelectSeats div')
+    movieSeatsCont_divs.forEach((movieSeat, seatIndex) => {
         let selected = false;
         movieSeat.onclick = () => {
             selected = !selected;
@@ -378,16 +379,16 @@ function movie_reserveSeats(movie, movieSeats_divs, screenIndex, movie_page) {
     reserveSeatsBtns.onclick = () => {
         let userIndex = null;
         let screen_existingSeatsArrangement = [];
-        if (localStorage.getItem(movie)) {
-            screen_existingSeatsArrangement = JSON.parse(localStorage.getItem(movie));
+        if (localStorage.getItem(movies[selectedMovieIndex].id)) {
+            screen_existingSeatsArrangement = JSON.parse(localStorage.getItem(movies[selectedMovieIndex].id));
             userIndex = existingUsersArray.findIndex(existingUser => existingUser.username === loggedInUserName);
         }
         selectedSeats.forEach(selectedSeat => {
             screen_existingSeatsArrangement[selectedSeat] = userIndex;
         })
-        localStorage.setItem(movie, JSON.stringify(screen_existingSeatsArrangement));
-        movie_page.style.display = 'none';
+        localStorage.setItem(movies[selectedMovieIndex].id, JSON.stringify(screen_existingSeatsArrangement));
+        moviePage.style.display = 'none';
         chooseMoviePage.style.display = 'block';
-        availableSeatCount(movies[screenIndex].id, screenIndex, screens[screenIndex].rows*screens[screenIndex].columns);
+        availableSeatCount(selectedMovieIndex);
     }
 }
